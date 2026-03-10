@@ -1,691 +1,302 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>三因子策略选股报告 - 策略君</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin: 0 auto;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header {
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            animation: moveStars 20s linear infinite;
-        }
-
-        @keyframes moveStars {
-            from {
-                transform: translate(0, 0);
-            }
-            to {
-                transform: translate(-50px, -50px);
-            }
-        }
-
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header .date {
-            font-size: 16px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .nav {
-            background: #f8f9fa;
-            padding: 15px 40px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .nav a {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav a:hover {
-            color: #764ba2;
-        }
-
-        .nav .separator {
-            color: #ccc;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4caf50;
-        }
-
-        .intro-box {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            border-left: 4px solid #4caf50;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .intro-box p {
-            margin-bottom: 10px;
-            color: #444;
-            line-height: 1.6;
-        }
-
-        .intro-box ul {
-            margin-left: 20px;
-            color: #444;
-        }
-
-        .intro-box li {
-            margin-bottom: 5px;
-        }
-
-        .formula-box {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-left: 4px solid #ff9800;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .formula-box h4 {
-            color: #e65100;
-            margin-bottom: 10px;
-        }
-
-        .formula {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            font-family: 'Courier New', monospace;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        th {
-            padding: 15px 12px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-            font-size: 13px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        tr:hover {
-            background-color: #e3f2fd;
-            transition: background-color 0.3s;
-        }
-
-        .rank {
-            font-weight: bold;
-            color: #e74c3c;
-            font-size: 16px;
-        }
-
-        .code {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #1976d2;
-        }
-
-        .score {
-            font-weight: bold;
-            color: #e74c3c;
-            font-size: 15px;
-        }
-
-        .lhb {
-            color: #ff9800;
-            font-weight: 600;
-        }
-
-        .zt {
-            color: #4caf50;
-            font-weight: 600;
-        }
-
-        .industry {
-            color: #666;
-            font-size: 12px;
-        }
-
-        .top5-section {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-
-        .top5-section h3 {
-            color: #e74c3c;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .top5-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px dashed #ddd;
-        }
-
-        .top5-item:last-child {
-            border-bottom: none;
-        }
-
-        .top5-rank {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 15px;
-        }
-
-        .top5-info {
-            flex: 1;
-        }
-
-        .top5-info .name {
-            font-weight: 600;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .top5-info .code {
-            color: #666;
-            font-size: 14px;
-            margin-left: 8px;
-        }
-
-        .top5-info .highlight {
-            color: #e74c3c;
-            font-size: 13px;
-            margin-top: 3px;
-        }
-
-        .top5-score {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        .filter-box {
-            background: #f5f5f5;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .filter-box h4 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .filter-box ul {
-            margin-left: 20px;
-            color: #666;
-        }
-
-        .filter-box li {
-            margin-bottom: 5px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 14px;
-            border-top: 1px solid #eee;
-            background: #f8f9fa;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 22px;
-            }
-
-            .content {
-                padding: 25px;
-            }
-
-            .nav {
-                padding: 15px 25px;
-                flex-wrap: wrap;
-            }
-
-            th, td {
-                padding: 10px 8px;
-                font-size: 12px;
-            }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+               line-height: 1.6; color: #333; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        h1 { color: #e74c3c; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 15px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; 
+              padding: 14px 12px; text-align: center; font-weight: 600; font-size: 14px; }
+        td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; font-size: 13px; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        tr:hover { background-color: #e3f2fd; transition: background-color 0.3s; }
+        .code { font-family: 'Courier New', monospace; font-weight: bold; color: #1976d2; }
+        .name { font-weight: 600; color: #333; }
+        .score { font-weight: bold; color: #e74c3c; font-size: 15px; }
+        .lhb { color: #ff9800; font-weight: 600; }
+        .zt { color: #4caf50; font-weight: 600; }
+        .trend { color: #9c27b0; font-weight: 600; }
+        .industry { color: #666; font-size: 12px; }
+        .summary { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-top: 20px; 
+                    text-align: center; font-size: 16px; font-weight: 600; color: #2e7d32; }
+        .footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 20px; 
+                   border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📊 2026年3月10日 三因子策略选股报告</h1>
-            <div class="date">统计日期：2026年3月10日 | 统计区间：2026-02-18 至 2026-03-10</div>
-        </div>
+    <h1>📊 三因子策略 - 选股结果</h1>
+    <p class="subtitle">统计日期：2026-03-11 | 统计区间：20260219 - 20260311 | 更新时间：2026-03-11 07:45:46</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>代码</th>
+                <th>名称</th>
+                <th>龙虎榜次数</th>
+                <th>连涨天数</th>
+                <th>趋势涨幅</th>
+                <th>近20日涨停</th>
+                <th>所属行业</th>
+                <th>综合评分</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        <div class="nav">
-            <a href="index.html">🏠 首页</a>
-            <span class="separator">|</span>
-            <a href="morning-report-2026-03-10.html">📰 今日早报</a>
-            <span class="separator">|</span>
-            <a href="three-factor-strategy.html">📈 三因子策略</a>
-        </div>
+            <tr>
+                <td><strong>#1</strong></td>
+                <td class="code">600410</td>
+                <td class="name">华胜天成</td>
+                <td class="lhb">13</td>
+                <td>3天</td>
+                <td class="trend">12.28%</td>
+                <td class="zt">1</td>
+                <td class="industry">IT服务</td>
+                <td class="score">50</td>
+            </tr>
 
-        <div class="content">
-            <div class="intro-box">
-                <p><strong>三因子策略</strong>是一种综合量化选股方法，通过融合以下三个核心因子筛选出具有强势特征的个股：</p>
-                <ul>
-                    <li>📈 <strong>龙虎榜因子</strong> — 反映主力资金关注度和活跃度</li>
-                    <li>📊 <strong>连阳趋势因子</strong> — 反映股价持续性和趋势强度</li>
-                    <li>🔥 <strong>涨停统计因子</strong> — 反映市场资金攻击意愿</li>
-                </ul>
-            </div>
+            <tr>
+                <td><strong>#2</strong></td>
+                <td class="code">600227</td>
+                <td class="name">赤天化</td>
+                <td class="lhb">8</td>
+                <td>3天</td>
+                <td class="trend">28.09%</td>
+                <td class="zt">4</td>
+                <td class="industry">农化制品</td>
+                <td class="score">50</td>
+            </tr>
 
-            <div class="formula-box">
-                <h4>📐 综合评分计算公式</h4>
-                <div class="formula">
-                    综合评分 = 龙虎榜次数 × 3 + 连涨天数 × 2 + 涨停次数 × 5
-                </div>
-            </div>
+            <tr>
+                <td><strong>#3</strong></td>
+                <td class="code">001400</td>
+                <td class="name">江顺科技</td>
+                <td class="lhb">3</td>
+                <td>3天</td>
+                <td class="trend">27.60%</td>
+                <td class="zt">5</td>
+                <td class="industry">专用设备</td>
+                <td class="score">40</td>
+            </tr>
 
-            <div class="filter-box">
-                <h4>🔍 筛选条件</h4>
-                <ul>
-                    <li>非ST、非转债、非北交所标的</li>
-                    <li>连涨天数：3-5天</li>
-                    <li>累计涨幅：5%-30%</li>
-                    <li>近20日涨停次数 ≥ 1次</li>
-                </ul>
-            </div>
+            <tr>
+                <td><strong>#4</strong></td>
+                <td class="code">600821</td>
+                <td class="name">金开新能</td>
+                <td class="lhb">3</td>
+                <td>3天</td>
+                <td class="trend">23.53%</td>
+                <td class="zt">4</td>
+                <td class="industry">电力</td>
+                <td class="score">35</td>
+            </tr>
 
-            <div class="top5-section">
-                <h3>🏆 核心标的 Top 5</h3>
-                
-                <div class="top5-item">
-                    <div class="top5-rank">1</div>
-                    <div class="top5-info">
-                        <div>
-                            <span class="name">华胜天成</span>
-                            <span class="code">600410</span>
-                        </div>
-                        <div class="highlight">近20日登龙虎榜12次，涨停1次，3连涨12.28%，IT服务板块龙头</div>
-                    </div>
-                    <div class="top5-score">47分</div>
-                </div>
+            <tr>
+                <td><strong>#5</strong></td>
+                <td class="code">002980</td>
+                <td class="name">华盛昌</td>
+                <td class="lhb">4</td>
+                <td>3天</td>
+                <td class="trend">13.31%</td>
+                <td class="zt">3</td>
+                <td class="industry">电网设备</td>
+                <td class="score">33</td>
+            </tr>
 
-                <div class="top5-item">
-                    <div class="top5-rank">2</div>
-                    <div class="top5-info">
-                        <div>
-                            <span class="name">赤天化</span>
-                            <span class="code">600227</span>
-                        </div>
-                        <div class="highlight">近20日登龙虎榜6次，涨停4次，3连涨28.09%，农化制品板块</div>
-                    </div>
-                    <div class="top5-score">44分</div>
-                </div>
+            <tr>
+                <td><strong>#6</strong></td>
+                <td class="code">600135</td>
+                <td class="name">乐凯胶片</td>
+                <td class="lhb">2</td>
+                <td>5天</td>
+                <td class="trend">26.26%</td>
+                <td class="zt">3</td>
+                <td class="industry">塑料制品</td>
+                <td class="score">31</td>
+            </tr>
 
-                <div class="top5-item">
-                    <div class="top5-rank">3</div>
-                    <div class="top5-info">
-                        <div>
-                            <span class="name">华盛昌</span>
-                            <span class="code">002980</span>
-                        </div>
-                        <div class="highlight">近20日登龙虎榜4次，涨停3次，3连涨13.31%，电网设备板块</div>
-                    </div>
-                    <div class="top5-score">33分</div>
-                </div>
+            <tr>
+                <td><strong>#7</strong></td>
+                <td class="code">002506</td>
+                <td class="name">协鑫集成</td>
+                <td class="lhb">3</td>
+                <td>3天</td>
+                <td class="trend">20.20%</td>
+                <td class="zt">3</td>
+                <td class="industry">光伏设备</td>
+                <td class="score">30</td>
+            </tr>
 
-                <div class="top5-item">
-                    <div class="top5-rank">4</div>
-                    <div class="top5-info">
-                        <div>
-                            <span class="name">江顺科技</span>
-                            <span class="code">001400</span>
-                        </div>
-                        <div class="highlight">近20日涨停4次，3连涨27.60%，专用设备板块</div>
-                    </div>
-                    <div class="top5-score">32分</div>
-                </div>
+            <tr>
+                <td><strong>#8</strong></td>
+                <td class="code">002575</td>
+                <td class="name">群兴玩具</td>
+                <td class="lhb">2</td>
+                <td>4天</td>
+                <td class="trend">27.27%</td>
+                <td class="zt">3</td>
+                <td class="industry">综合</td>
+                <td class="score">29</td>
+            </tr>
 
-                <div class="top5-item">
-                    <div class="top5-rank">5</div>
-                    <div class="top5-info">
-                        <div>
-                            <span class="name">金开新能</span>
-                            <span class="code">600821</span>
-                        </div>
-                        <div class="highlight">近20日涨停4次，3连涨23.53%，电力板块</div>
-                    </div>
-                    <div class="top5-score">32分</div>
-                </div>
-            </div>
+            <tr>
+                <td><strong>#9</strong></td>
+                <td class="code">002015</td>
+                <td class="name">协鑫能科</td>
+                <td class="lhb">2</td>
+                <td>3天</td>
+                <td class="trend">27.61%</td>
+                <td class="zt">3</td>
+                <td class="industry">电力</td>
+                <td class="score">27</td>
+            </tr>
 
-            <div class="section">
-                <div class="section-title">📋 完整列表</div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>排名</th>
-                                <th>代码</th>
-                                <th>名称</th>
-                                <th>龙虎榜次数</th>
-                                <th>连涨天数</th>
-                                <th>趋势涨幅</th>
-                                <th>近20日涨停</th>
-                                <th>所属行业</th>
-                                <th>综合评分</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="rank">#1</td>
-                                <td class="code">600410</td>
-                                <td><strong>华胜天成</strong></td>
-                                <td class="lhb">12</td>
-                                <td>3天</td>
-                                <td>12.28%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">IT服务</td>
-                                <td class="score">47</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#2</td>
-                                <td class="code">600227</td>
-                                <td><strong>赤天化</strong></td>
-                                <td class="lhb">6</td>
-                                <td>3天</td>
-                                <td>28.09%</td>
-                                <td class="zt">4</td>
-                                <td class="industry">农化制品</td>
-                                <td class="score">44</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#3</td>
-                                <td class="code">002980</td>
-                                <td><strong>华盛昌</strong></td>
-                                <td class="lhb">4</td>
-                                <td>3天</td>
-                                <td>13.31%</td>
-                                <td class="zt">3</td>
-                                <td class="industry">电网设备</td>
-                                <td class="score">33</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#4</td>
-                                <td class="code">001400</td>
-                                <td><strong>江顺科技</strong></td>
-                                <td class="lhb">2</td>
-                                <td>3天</td>
-                                <td>27.60%</td>
-                                <td class="zt">4</td>
-                                <td class="industry">专用设备</td>
-                                <td class="score">32</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#5</td>
-                                <td class="code">600821</td>
-                                <td><strong>金开新能</strong></td>
-                                <td class="lhb">2</td>
-                                <td>3天</td>
-                                <td>23.53%</td>
-                                <td class="zt">4</td>
-                                <td class="industry">电力</td>
-                                <td class="score">32</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#6</td>
-                                <td class="code">002506</td>
-                                <td><strong>协鑫集成</strong></td>
-                                <td class="lhb">3</td>
-                                <td>3天</td>
-                                <td>20.20%</td>
-                                <td class="zt">3</td>
-                                <td class="industry">光伏设备</td>
-                                <td class="score">30</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#7</td>
-                                <td class="code">002015</td>
-                                <td><strong>协鑫能科</strong></td>
-                                <td class="lhb">2</td>
-                                <td>3天</td>
-                                <td>27.61%</td>
-                                <td class="zt">3</td>
-                                <td class="industry">电力</td>
-                                <td class="score">27</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#8</td>
-                                <td class="code">301175</td>
-                                <td><strong>中科环保</strong></td>
-                                <td class="lhb">2</td>
-                                <td>5天</td>
-                                <td>6.39%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">环境治理</td>
-                                <td class="score">21</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#9</td>
-                                <td class="code">603778</td>
-                                <td><strong>国晟科技</strong></td>
-                                <td class="lhb">1</td>
-                                <td>3天</td>
-                                <td>21.74%</td>
-                                <td class="zt">2</td>
-                                <td class="industry">光伏设备</td>
-                                <td class="score">19</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#10</td>
-                                <td class="code">002667</td>
-                                <td><strong>威领股份</strong></td>
-                                <td class="lhb">1</td>
-                                <td>3天</td>
-                                <td>23.70%</td>
-                                <td class="zt">2</td>
-                                <td class="industry">能源金属</td>
-                                <td class="score">19</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#11</td>
-                                <td class="code">001309</td>
-                                <td><strong>德明利</strong></td>
-                                <td class="lhb">1</td>
-                                <td>5天</td>
-                                <td>28.91%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">半导体</td>
-                                <td class="score">18</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#12</td>
-                                <td class="code">301218</td>
-                                <td><strong>华是科技</strong></td>
-                                <td class="lhb">1</td>
-                                <td>5天</td>
-                                <td>24.43%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">IT服务</td>
-                                <td class="score">18</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#13</td>
-                                <td class="code">600851</td>
-                                <td><strong>海欣股份</strong></td>
-                                <td class="lhb">1</td>
-                                <td>5天</td>
-                                <td>16.23%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">化学制药</td>
-                                <td class="score">18</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#14</td>
-                                <td class="code">300895</td>
-                                <td><strong>铜牛信息</strong></td>
-                                <td class="lhb">1</td>
-                                <td>4天</td>
-                                <td>27.44%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">通信服务</td>
-                                <td class="score">16</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#15</td>
-                                <td class="code">600800</td>
-                                <td><strong>渤海化学</strong></td>
-                                <td class="lhb">1</td>
-                                <td>4天</td>
-                                <td>17.39%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">石油加工贸易</td>
-                                <td class="score">16</td>
-                            </tr>
-                            <tr>
-                                <td class="rank">#16</td>
-                                <td class="code">301129</td>
-                                <td><strong>瑞纳智能</strong></td>
-                                <td class="lhb">1</td>
-                                <td>3天</td>
-                                <td>6.04%</td>
-                                <td class="zt">1</td>
-                                <td class="industry">通用设备</td>
-                                <td class="score">14</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <tr>
+                <td><strong>#10</strong></td>
+                <td class="code">002335</td>
+                <td class="name">科华数据</td>
+                <td class="lhb">1</td>
+                <td>5天</td>
+                <td class="trend">22.78%</td>
+                <td class="zt">2</td>
+                <td class="industry">其他电源设备</td>
+                <td class="score">23</td>
+            </tr>
 
-            <div class="section">
-                <div class="section-title">📊 统计摘要</div>
-                <div class="intro-box">
-                    <p><strong>本次筛选结果：</strong></p>
-                    <ul>
-                        <li>✅ 共筛选出 <strong>16只</strong> 符合条件的股票</li>
-                        <li>🏆 最高评分：<strong>华胜天成 47分</strong></li>
-                        <li>📈 龙虎榜关注最高：华胜天成（12次）</li>
-                        <li>🔥 涨停次数最多：赤天化、江顺科技、金开新能（各4次）</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            <tr>
+                <td><strong>#11</strong></td>
+                <td class="code">002667</td>
+                <td class="name">威领股份</td>
+                <td class="lhb">2</td>
+                <td>3天</td>
+                <td class="trend">23.70%</td>
+                <td class="zt">2</td>
+                <td class="industry">能源金属</td>
+                <td class="score">22</td>
+            </tr>
 
-        <div class="footer">
-            ⚠️ 风险提示：选股结果仅为量化策略输出，不构成投资建议，股市有风险，入市需谨慎。<br>
-            由 策略君 出品 | 智能化A股市场策略分析
-        </div>
+            <tr>
+                <td><strong>#12</strong></td>
+                <td class="code">603778</td>
+                <td class="name">国晟科技</td>
+                <td class="lhb">2</td>
+                <td>3天</td>
+                <td class="trend">21.74%</td>
+                <td class="zt">2</td>
+                <td class="industry">光伏设备</td>
+                <td class="score">22</td>
+            </tr>
+
+            <tr>
+                <td><strong>#13</strong></td>
+                <td class="code">301175</td>
+                <td class="name">中科环保</td>
+                <td class="lhb">2</td>
+                <td>5天</td>
+                <td class="trend">6.39%</td>
+                <td class="zt">1</td>
+                <td class="industry">环境治理</td>
+                <td class="score">21</td>
+            </tr>
+
+            <tr>
+                <td><strong>#14</strong></td>
+                <td class="code">002467</td>
+                <td class="name">二六三</td>
+                <td class="lhb">1</td>
+                <td>4天</td>
+                <td class="trend">19.91%</td>
+                <td class="zt">2</td>
+                <td class="industry">通信服务</td>
+                <td class="score">21</td>
+            </tr>
+
+            <tr>
+                <td><strong>#15</strong></td>
+                <td class="code">002384</td>
+                <td class="name">东山精密</td>
+                <td class="lhb">1</td>
+                <td>3天</td>
+                <td class="trend">16.57%</td>
+                <td class="zt">2</td>
+                <td class="industry">元件</td>
+                <td class="score">19</td>
+            </tr>
+
+            <tr>
+                <td><strong>#16</strong></td>
+                <td class="code">002300</td>
+                <td class="name">太阳电缆</td>
+                <td class="lhb">1</td>
+                <td>5天</td>
+                <td class="trend">25.35%</td>
+                <td class="zt">1</td>
+                <td class="industry">电网设备</td>
+                <td class="score">18</td>
+            </tr>
+
+            <tr>
+                <td><strong>#17</strong></td>
+                <td class="code">001309</td>
+                <td class="name">德明利</td>
+                <td class="lhb">1</td>
+                <td>5天</td>
+                <td class="trend">28.91%</td>
+                <td class="zt">1</td>
+                <td class="industry">半导体</td>
+                <td class="score">18</td>
+            </tr>
+
+            <tr>
+                <td><strong>#18</strong></td>
+                <td class="code">301218</td>
+                <td class="name">华是科技</td>
+                <td class="lhb">1</td>
+                <td>5天</td>
+                <td class="trend">24.43%</td>
+                <td class="zt">1</td>
+                <td class="industry">IT服务</td>
+                <td class="score">18</td>
+            </tr>
+
+            <tr>
+                <td><strong>#19</strong></td>
+                <td class="code">600851</td>
+                <td class="name">海欣股份</td>
+                <td class="lhb">1</td>
+                <td>5天</td>
+                <td class="trend">16.23%</td>
+                <td class="zt">1</td>
+                <td class="industry">化学制药</td>
+                <td class="score">18</td>
+            </tr>
+
+            <tr>
+                <td><strong>#20</strong></td>
+                <td class="code">600800</td>
+                <td class="name">渤海化学</td>
+                <td class="lhb">1</td>
+                <td>4天</td>
+                <td class="trend">17.39%</td>
+                <td class="zt">1</td>
+                <td class="industry">石油加工贸易</td>
+                <td class="score">16</td>
+            </tr>
+
+        </tbody>
+    </table>
+    
+    <div class="summary">
+        ✅ 共筛选出 23 只符合条件的股票 | 显示前 20 名
+    </div>
+    
+    <div class="footer">
+        <p>策略因子：龙虎榜 × 3 + 连涨天数 × 2 + 涨停次数 × 5</p>
+        <p>过滤条件：非ST、非转债、非北交所 | 连涨3-5天 | 涨幅5%-30%</p>
     </div>
 </body>
 </html>
