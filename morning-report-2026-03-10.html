@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年3月10日 A股早盘策略报告 - 策略君</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: moveStars 20s linear infinite;
+        }
+
+        @keyframes moveStars {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-50px, -50px);
+            }
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .date {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 15px 40px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #764ba2;
+        }
+
+        .nav .separator {
+            color: #ccc;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e74c3c;
+        }
+
+        .section-content {
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .section-content p {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+            border-left: 4px solid #e74c3c;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .topic-list li:last-child {
+            border-bottom: none;
+        }
+
+        .topic-rating {
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .topic-content strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .topic-content span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .sentiment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .sentiment-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .sentiment-item .label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .sentiment-item .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        .stock-list {
+            list-style: none;
+        }
+
+        .stock-list li {
+            padding: 15px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stock-list li strong {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .stock-list li span {
+            color: #666;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .strategy-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .strategy-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .strategy-box ul {
+            margin-left: 20px;
+        }
+
+        .strategy-box li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .nav {
+                padding: 15px 25px;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 2026年3月10日 A股早盘策略报告</h1>
+            <div class="date">发布日期：2026年3月10日</div>
+        </div>
+
+        <div class="nav">
+            <a href="index.html">🏠 首页</a>
+            <span class="separator">|</span>
+            <a href="morning-report-2026-03-10.html">📰 今日早报</a>
+            <span class="separator">|</span>
+            <a href="three-factor-strategy.html">📈 三因子策略</a>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title">一、全球市场概览</div>
+                <div class="section-content">
+                    <p>隔夜全球市场受中东局势主导呈现高波动特征：美股三大指数集体收跌，道指跌1.24%、纳指跌1.06%、标普500跌1.1%，恐慌指数VIX飙升至35点创2025年4月以来新高；欧股集体大跌，欧洲斯托克50指数跌2.58%；国际油价上演过山车行情，WTI原油一度暴涨至120美元/桶，受G7讨论释放3-4亿桶战略储备消息影响回落至102.4美元/桶，布油收报106.8美元/桶；现货黄金失守5100美元关口，收报5092美元/盎司。</p>
+                    <div class="highlight-box">
+                        <strong>核心扰动因素：</strong>霍尔木兹海峡关闭导致全球原油供应缺口扩大，叠加市场对滞胀风险的担忧，全球风险资产普遍承压，A股展现出较强抗跌性。
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">二、昨日A股市场复盘</div>
+                <div class="section-content">
+                    <p>周一A股在外围暴跌背景下走出深V独立行情，沪指收跌0.67%报4096.6点，盘中最低下探至4052点完成双针探底；深成指跌0.74%，创业板指跌0.64%，盘中均一度跌超3%；全市场成交额2.67万亿元，较上周五放量4513亿元，资金分歧明显但承接力极强；个股方面上涨1423家、下跌3964家，涨停50家、跌停9家，北向资金小幅净流出41.76亿元。</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">三、市场情绪指数</div>
+                <div class="sentiment-grid">
+                    <div class="sentiment-item">
+                        <div class="label">短期情绪</div>
+                        <div class="value">38分</div>
+                        <div style="font-size: 12px; color: #666;">谨慎修复区间</div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="label">赚钱效应</div>
+                        <div class="value">26%</div>
+                        <div style="font-size: 12px; color: #666;">结构性机会</div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="label">恐慌指数</div>
+                        <div class="value">28</div>
+                        <div style="font-size: 12px; color: #666;">低于美股35</div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="label">资金承接</div>
+                        <div class="value">76分</div>
+                        <div style="font-size: 12px; color: #666;">支撑力度极强</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">四、核心题材强度排名</div>
+                <ul class="topic-list">
+                    <li>
+                        <span class="topic-rating">★★★★★</span>
+                        <div class="topic-content">
+                            <strong>电网设备</strong>
+                            <span>海外数据中心缺电催生需求，龙头王力安防、顺纳股份4连板，板块持续性强</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="topic-rating">★★★★</span>
+                        <div class="topic-content">
+                            <strong>算力/AI（WEB4）</strong>
+                            <span>AI+区块链新概念爆发，优刻得、顺网科技20CM涨停，拓维信息2连板，算力主线逻辑最硬</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="topic-rating">★★★</span>
+                        <div class="topic-content">
+                            <strong>油气产业链</strong>
+                            <span>事件驱动型机会，油价波动大，适合快进快出，不建议重仓追高</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="topic-rating">★★★</span>
+                        <div class="topic-content">
+                            <strong>化工/农业</strong>
+                            <span>涨价逻辑清晰，资金埋伏迹象明显，防守属性较强</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="topic-rating">★★</span>
+                        <div class="topic-content">
+                            <strong>创新药</strong>
+                            <span>超跌叠加政策利好，估值修复行情启动</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">五、资金结构分析</div>
+                <div class="section-content">
+                    <p><strong>主力资金流入：</strong>计算机（+128亿）、电力设备（+96亿）、汽车（+42亿）、煤炭（+38亿）</p>
+                    <p><strong>主力资金流出：</strong>电子（-186亿）、通信（-124亿）、有色金属（-87亿）、军工（-72亿）</p>
+                    <p><strong>机构动向：</strong>重点买入东阳光、万泽股份、汉得信息等业绩确定性标的</p>
+                    <p><strong>调仓特征：</strong>资金从高估值成长赛道向低估值、高股息防御板块切换的趋势明确</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">六、潜在龙头股识别</div>
+                <ul class="stock-list">
+                    <li><strong>王力安防（605268）</strong><span>电网设备情绪龙头，4连板，筹码结构稳定</span></li>
+                    <li><strong>顺纳股份（000533）</strong><span>电网设备高标，4连板，量价配合良好</span></li>
+                    <li><strong>拓维信息（002261）</strong><span>算力主线龙头，2连板，华为昇腾催化不断</span></li>
+                    <li><strong>优刻得（688158）</strong><span>WEB4概念龙头，20CM涨停，资金关注度高</span></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">七、今日交易策略</div>
+                <div class="strategy-box">
+                    <ul>
+                        <li><strong>仓位建议：</strong>5-6成，外部扰动仍存，不盲目加仓也不过度悲观</li>
+                        <li><strong>操作原则：</strong>急跌敢低吸，大涨不追高，适合滚动做T</li>
+                        <li><strong>风险控制：</strong>规避无业绩支撑的纯题材炒作标的，远离短期涨幅过大的油气股</li>
+                        <li><strong>时间窗口：</strong>早盘惯性下探时是低吸主线板块的黄金窗口，尾盘不追高</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">八、今日重点关注方向</div>
+                <div class="section-content">
+                    <ol>
+                        <li><strong>电网设备：</strong>海外缺电常态化，行业景气度持续上行，关注中国西电、国电南自等核心标的</li>
+                        <li><strong>算力/AI：</strong>全球科技主线，逢回调低吸，关注拓维信息、优刻得、顺网科技</li>
+                        <li><strong>化工板块：</strong>涨价逻辑+资金埋伏，关注红宝丽、六国化工等标的</li>
+                        <li><strong>创新药：</strong>超跌+政策利好，估值修复空间大，关注恒瑞医药、药明康德</li>
+                        <li><strong>规避方向：</strong>高位半导体、消费电子等成长赛道，以及纯事件驱动的油气题材股</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            ⚠️ 风险提示：本报告仅为市场分析参考，不构成任何投资建议，股市有风险，入市需谨慎。<br>
+            由 策略君 出品 | 智能化A股市场策略分析
+        </div>
+    </div>
+</body>
+</html>
