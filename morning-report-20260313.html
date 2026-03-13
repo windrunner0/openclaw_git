@@ -1,64 +1,686 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026-03-13 A股早盘策略报告</title>
+    <title>📊 2026-03-13 A股早盘策略报告</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
-               line-height: 1.8; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        h1 { color: #e74c3c; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 15px; }
-        h2 { color: #667eea; border-left: 4px solid #667eea; padding-left: 12px; margin-top: 35px; }
-        .meta { text-align: center; color: #999; margin-bottom: 30px; font-size: 14px; }
-        .section { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .update-time { text-align: center; color: #666; margin-top: 40px; font-size: 14px; border-top: 1px solid #eee; padding-top: 20px; }
-        .disclaimer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; font-style: italic; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .meta {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.6em;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            margin: 35px 0 20px 0;
+        }
+
+        h3 {
+            color: #555;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-red {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .badge-green {
+            background: #51cf66;
+            color: white;
+        }
+
+        .badge-blue {
+            background: #4dabf7;
+            color: white;
+        }
+
+        .badge-orange {
+            background: #ff922b;
+            color: white;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tips {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .check-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .check-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .check-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #51cf66;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cross-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cross-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .cross-list li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .update-time {
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+            font-size: 0.9em;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .rating {
+            display: inline-block;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .content {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📊 2026-03-13 A股早盘策略报告</h1>
-    <div class="meta">更新时间：2026-03-13 08:00:07</div>
+    <div class="container">
+        <div class="header">
+            <h1>📊 2026-03-13 A股早盘策略报告</h1>
+            <div class="meta">策略分析师：策略君 📊 | 更新时间：2026-03-13 08:10:00</div>
+        </div>
 
-    <div class="section">
-        <h2>一、全球市场概览</h2>
-        <p>（数据待采集）</p>
+        <div class="content">
+            <h2>一、全球市场概览</h2>
+
+            <div class="section">
+                <h3>🇺🇸 美股市场</h3>
+                <p>美股三大指数收盘涨跌不一，市场呈现分化走势：</p>
+                <table class="data-table">
+                    <tr>
+                        <th>指数</th>
+                        <th>涨跌幅</th>
+                        <th>收盘点位</th>
+                    </tr>
+                    <tr>
+                        <td>道琼斯工业指数</td>
+                        <td><span class="badge badge-red">-0.61%</span></td>
+                        <td>46,677.85</td>
+                    </tr>
+                    <tr>
+                        <td>纳斯达克综合指数</td>
+                        <td><span class="badge badge-green">+0.08%</span></td>
+                        <td>22,311.98</td>
+                    </tr>
+                    <tr>
+                        <td>标普500指数</td>
+                        <td><span class="badge badge-red">-0.08%</span></td>
+                        <td>6,672.62</td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 20px;">🇪🇺 欧股市场</h3>
+                <p>欧洲三大股指全线下跌：</p>
+                <ul class="check-list">
+                    <li><strong>英国富时100指数：</strong>跌0.56%，收于10,353.77点</li>
+                    <li><strong>法国CAC40指数：</strong>跌0.19%，收于8,041.81点</li>
+                    <li><strong>德国DAX指数：</strong>跌1.37%，收于23,640.03点</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">💰 大宗商品</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>品种</th>
+                        <th>涨跌幅</th>
+                        <th>最新价</th>
+                    </tr>
+                    <tr>
+                        <td>布伦特原油</td>
+                        <td><span class="badge badge-red">+4.76%</span></td>
+                        <td>91.98美元/桶</td>
+                    </tr>
+                    <tr>
+                        <td>WTI原油</td>
+                        <td><span class="badge badge-red">+4.55%</span></td>
+                        <td>87.25美元/桶</td>
+                    </tr>
+                    <tr>
+                        <td>COMEX黄金</td>
+                        <td><span class="badge badge-green">-1.10%</span></td>
+                        <td>5,184.4美元/盎司</td>
+                    </tr>
+                </table>
+
+                <div class="warning">
+                    <strong>⚠️ 风险提示：</strong>国际油价大幅上涨，布伦特原油突破90美元/桶，可能引发通胀预期升温。
+                </div>
+            </div>
+
+            <h2>二、昨日A股市场复盘</h2>
+
+            <div class="section">
+                <h3>📈 指数表现</h3>
+                <p>3月12日，A股三大指数午后跌幅收窄，整体呈现震荡回调态势：</p>
+                <table class="data-table">
+                    <tr>
+                        <th>指数</th>
+                        <th>涨跌幅</th>
+                        <th>收盘点位</th>
+                        <th>成交额（亿元）</th>
+                    </tr>
+                    <tr>
+                        <td>上证指数</td>
+                        <td><span class="badge badge-red">-0.10%</span></td>
+                        <td>4,129.10</td>
+                        <td>10,782</td>
+                    </tr>
+                    <tr>
+                        <td>深证成指</td>
+                        <td><span class="badge badge-red">-0.63%</span></td>
+                        <td>14,374.87</td>
+                        <td>13,637</td>
+                    </tr>
+                    <tr>
+                        <td>创业板指</td>
+                        <td><span class="badge badge-red">-0.96%</span></td>
+                        <td>3,317.52</td>
+                        <td>5,960</td>
+                    </tr>
+                    <tr>
+                        <td>科创50指数</td>
+                        <td><span class="badge badge-red">-1.24%</span></td>
+                        <td>1,383.65</td>
+                        <td>-</td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 20px;">📊 市场概况</h3>
+                <ul class="check-list">
+                    <li><strong>成交总额：</strong>2.44万亿元，较前一交易日缩量665亿元</li>
+                    <li><strong>涨跌统计：</strong>1,492只上涨，3,891只下跌，102只平盘</li>
+                    <li><strong>涨停跌停：</strong>64只涨停，12只跌幅超9%</li>
+                </ul>
+
+                <div class="tips">
+                    <strong>💡 市场特征：</strong>市场呈现明显的"指数维稳、个股失血"特征，权重股和周期股护盘，中小盘题材股遭遇抛售。
+                </div>
+            </div>
+
+            <h2>三、市场情绪指数</h2>
+
+            <div class="section">
+                <table class="data-table">
+                    <tr>
+                        <th>情绪指标</th>
+                        <th>数值</th>
+                        <th>评价</th>
+                    </tr>
+                    <tr>
+                        <td>涨跌停比</td>
+                        <td>64:12</td>
+                        <td><span class="badge badge-orange">赚钱效应较差</span></td>
+                    </tr>
+                    <tr>
+                        <td>封板率</td>
+                        <td>71%</td>
+                        <td><span class="badge badge-orange">题材持续性一般</span></td>
+                    </tr>
+                    <tr>
+                        <td>连板股数量</td>
+                        <td>8只</td>
+                        <td><span class="badge badge-orange">市场高度有限</span></td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 20px;">😊 情绪周期判断</h3>
+                <p>当前市场处于<strong>震荡整理阶段</strong>，情绪偏向谨慎：</p>
+                <ul class="check-list">
+                    <li><strong>整体情绪指数：</strong>中性偏弱</li>
+                    <li><strong>短线情绪：</strong>降温</li>
+                    <li><strong>中期情绪：</strong>观望</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>⚠️ 风险偏好：</strong>受地缘政治冲突升级和国际油价大涨影响，市场避险情绪升温，风险偏好明显下降。
+                </div>
+            </div>
+
+            <h2>四、核心题材强度排名</h2>
+
+            <div class="section">
+                <h3>🔥 强势题材TOP5</h3>
+
+                <p><strong>1. 电力/绿电板块</strong> <span class="rating">★★★★★</span></p>
+                <p><em>核心逻辑：</em>地缘冲突推动能源安全主题，《数据中心绿色低碳发展专项行动计划》政策支持</p>
+                <p><em>代表个股：</em>中国能建（5天3板）、绿发电力（3连板）、华电能源（3连板）</p>
+
+                <p style="margin-top: 15px;"><strong>2. 煤炭板块</strong> <span class="rating">★★★★★</span></p>
+                <p><em>核心逻辑：</em>能源替代效应凸显，霍尔木兹海峡通航危机引发供应担忧，煤价上涨预期强烈</p>
+                <p><em>代表个股：</em>中煤能源（创18年新高）、兖矿能源（涨停）、郑州煤电（涨停）</p>
+
+                <p style="margin-top: 15px;"><strong>3. 化工板块</strong> <span class="rating">★★★★</span></p>
+                <p><em>核心逻辑：</em>原油涨价驱动化工品价格上涨，对二甲苯、PTA等期货涨停</p>
+                <p><em>代表个股：</em>金牛化工（9天5板）、潞化科技（涨停）、三房巷（涨停）</p>
+
+                <p style="margin-top: 15px;"><strong>4. 风电板块</strong> <span class="rating">★★★★</span></p>
+                <p><em>核心逻辑：</em>能源市场动荡推动可再生能源发展，装机、盈利、出口三重利好</p>
+                <p><em>代表个股：</em>双一科技（20CM涨停）、海力风电、大金重工</p>
+
+                <p style="margin-top: 15px;"><strong>5. 碳纤维板块</strong> <span class="rating">★★★</span></p>
+                <p><em>核心逻辑：</em>T1200级碳纤维中国率先量产，技术突破带动产业链</p>
+                <p><em>代表个股：</em>中复神鹰（20CM涨停）、吉林化纤（涨停）</p>
+
+                <h3 style="margin-top: 25px;">❌ 弱势题材TOP3</h3>
+
+                <p><strong>1. 军工板块</strong> <span class="rating">★</span></p>
+                <p><em>调整原因：</em>前期涨幅较大，资金获利了结</p>
+
+                <p style="margin-top: 15px;"><strong>2. 通信板块</strong> <span class="rating">★</span></p>
+                <p><em>调整原因：</em>5G建设预期边际减弱</p>
+
+                <p style="margin-top: 15px;"><strong>3. 机械设备板块</strong> <span class="rating">★</span></p>
+                <p><em>调整原因：</em>制造业复苏预期偏弱</p>
+            </div>
+
+            <h2>五、资金结构分析</h2>
+
+            <div class="section">
+                <h3>💰 主力资金流向</h3>
+                <p><strong>大盘主力资金净流出：</strong>约720亿元</p>
+
+                <p style="margin-top: 15px;"><strong>沪市主力资金净流入前三：</strong></p>
+                <table class="data-table">
+                    <tr>
+                        <th>股票</th>
+                        <th>净流入（亿元）</th>
+                    </tr>
+                    <tr>
+                        <td>三安光电</td>
+                        <td><span class="badge badge-green">+13.64</span></td>
+                    </tr>
+                    <tr>
+                        <td>中国铝业</td>
+                        <td><span class="badge badge-green">+9.75</span></td>
+                    </tr>
+                    <tr>
+                        <td>杭钢股份</td>
+                        <td><span class="badge badge-green">+8.14</span></td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 20px;">📈 北向资金动向</h3>
+                <ul class="check-list">
+                    <li><strong>南向资金：</strong>净买入港股112.83亿港元，超47亿抢筹盈富基金</li>
+                    <li><strong>南向成交额：</strong>1,134.67亿港元</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">🔄 资金结构特征</h3>
+                <ol class="check-list">
+                    <li><strong>资金切换方向：</strong>从高位成长向低位顺周期与能源主线切换</li>
+                    <li><strong>避险情绪升温：</strong>大量资金流向低估值、高分红的资源周期股</li>
+                    <li><strong>存量博弈为主：</strong>成交额缩量，场外资金观望态度明显</li>
+                </ol>
+            </div>
+
+            <h2>六、潜在龙头股识别</h2>
+
+            <div class="section">
+                <h3>🎯 连板梯队</h3>
+
+                <p><strong>四板高度：</strong></p>
+                <p>• 中南文化（000420）- 4连板，通用设备，并购重组概念</p>
+
+                <p style="margin-top: 15px;"><strong>三板梯队：</strong></p>
+                <p>• 绿发电力（000537）- 3连板，电力/绿电概念</p>
+                <p>• 华电能源（600726）- 3连板，电力/绿电概念</p>
+
+                <p style="margin-top: 15px;"><strong>二板梯队：</strong></p>
+                <p>• 金牛化工（600722）- 2连板，化学原料，9天5板</p>
+                <p>• 正泰电源（002150）- 2连板，通用设备</p>
+                <p>• 节能风电（601016）- 2连板，电力</p>
+                <p>• 绿色动力（603626）- 2连板，环境治理</p>
+
+                <h3 style="margin-top: 25px;">🏆 龙头个股监测</h3>
+
+                <p><strong>总龙头：</strong></p>
+                <p>• <span class="highlight">中国能建</span> - 5天3板，绿色电力概念，全天成交175亿元，创历史新高</p>
+
+                <p style="margin-top: 15px;"><strong>板块龙头：</strong></p>
+                <ul>
+                    <li><strong>煤炭：</strong>中煤能源（创18年新高）、兖矿能源（涨停）</li>
+                    <li><strong>电力：</strong>绿发电力（3连板）、华电能源（3连板）</li>
+                    <li><strong>化工：</strong>金牛化工（9天5板）、潞化科技</li>
+                    <li><strong>风电：</strong>双一科技（20CM涨停）、大金重工</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">📊 成交活跃股TOP3</h3>
+                <ol>
+                    <li>华工科技 - 成交277亿元，位居沪深两市第一</li>
+                    <li>阳光电源 - 成交额居前</li>
+                    <li>金风科技 - 成交额居前</li>
+                </ol>
+            </div>
+
+            <h2>七、今日交易策略</h2>
+
+            <div class="section">
+                <h3>🎯 市场研判</h3>
+
+                <p><strong>指数层面：</strong></p>
+                <ul class="check-list">
+                    <li><strong>上证指数：</strong>预计在4,100-4,150点区间震荡，维持窄幅整理</li>
+                    <li><strong>深证成指：</strong>承压较大，可能在14,300-14,450点震荡</li>
+                    <li><strong>创业板指：</strong>调整压力仍在，或在3,300-3,350点震荡</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>关键点位：</strong></p>
+                <ul class="check-list">
+                    <li><strong>上证支撑：</strong>4,100点，压力：4,150点</li>
+                    <li><strong>创指支撑：</strong>3,300点，压力：3,350点</li>
+                </ul>
+
+                <h3 style="margin-top: 25px;">💼 交易策略</h3>
+
+                <div class="tips">
+                    <strong>总体策略：</strong>谨慎观望，低吸不追高，控制仓位
+                </div>
+
+                <h4 style="margin-top: 20px;">1. 仓位管理</h4>
+                <ul>
+                    <li><strong>总体仓位：</strong>建议控制在3-5成</li>
+                    <li><strong>激进投资者：</strong>可维持5-7成，重点布局能源主线</li>
+                    <li><strong>保守投资者：</strong>建议2-3成，观望为主</li>
+                </ul>
+
+                <h4 style="margin-top: 20px;">2. 操作方向</h4>
+
+                <p><span class="badge badge-green">✅ 可参与方向</span></p>
+                <ul class="check-list">
+                    <li><strong>能源主线：</strong>电力、煤炭、风电等能源安全相关板块</li>
+                    <li><strong>涨价链：</strong>化工、有色金属等受通胀预期推动的周期品</li>
+                    <li><strong>低估值高分红：</strong>银行、公用事业等防御性品种</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><span class="badge badge-red">❌ 谨慎参与方向</span></p>
+                <ul class="cross-list">
+                    <li><strong>高位科技股：</strong>短期仍需规避，等待企稳信号</li>
+                    <li><strong>军工、通信：</strong>调整趋势尚未结束</li>
+                    <li><strong>高题材概念：</strong>情绪降温，炒作风险加大</li>
+                </ul>
+
+                <h4 style="margin-top: 20px;">3. 具体操作建议</h4>
+
+                <p><strong>激进策略：</strong></p>
+                <ul class="check-list">
+                    <li>逢低布局能源龙头：中国能建、中煤能源、兖矿能源</li>
+                    <li>参与化工涨价链：金牛化工、潞化科技、三房巷</li>
+                    <li>重点关注绿电概念：绿发电力、华电能源、协鑫能科</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>稳健策略：</strong></p>
+                <ul class="check-list">
+                    <li>配置低估值蓝筹：银行、公用事业</li>
+                    <li>重点关注高分红股票</li>
+                    <li>适当配置黄金等避险资产</li>
+                </ul>
+
+                <h4 style="margin-top: 20px;">4. 风险控制</h4>
+                <ul class="check-list">
+                    <li><strong>设置止损位：</strong>单只个股亏损不超过7%</li>
+                    <li><strong>不追高涨停：</strong>避免追打高位涨停板</li>
+                    <li><strong>分散投资：</strong>不要集中于单一板块</li>
+                </ul>
+            </div>
+
+            <h2>八、今日重点关注方向</h2>
+
+            <div class="section">
+                <h3>📌 核心关注方向</h3>
+
+                <p><strong>1. 能源安全主题</strong></p>
+                <ul>
+                    <li><strong>电力/绿电：</strong>绿发电力、华电能源、中国能建、协鑫能科</li>
+                    <li><strong>煤炭：</strong>中煤能源、兖矿能源、郑州煤电、陕西黑猫</li>
+                    <li><strong>风电：</strong>双一科技、大金重工、金风科技、海力风电</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>2. 化工涨价链</strong></p>
+                <ul>
+                    <li><strong>基础化工：</strong>金牛化工、潞化科技、三房巷、和邦生物</li>
+                    <li><strong>化学纤维：</strong>中复神鹰、吉林化纤、泰和新材</li>
+                    <li><strong>农化制品：</strong>安道麦A、和邦生物、金河生物</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>3. 价值防御方向</strong></p>
+                <ul>
+                    <li><strong>银行：</strong>关注低估值、高分红个股</li>
+                    <li><strong>公用事业：</strong>关注燃气、水务等防御性品种</li>
+                    <li><strong>高分蓝筹：</strong>关注业绩稳定、分红率高的龙头企业</li>
+                </ul>
+
+                <h3 style="margin-top: 25px;">📋 今日监测清单</h3>
+
+                <p><strong>涨停监测：</strong></p>
+                <ul class="check-list">
+                    <li>中南文化（4连板）- 观察能否延续</li>
+                    <li>绿发电力（3连板）- 绿电龙头，重点关注</li>
+                    <li>华电能源（3连板）- 电力板块，关注持续性</li>
+                    <li>金牛化工（9天5板）- 化工龙头，关注分歧转一致机会</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>异动监测：</strong></p>
+                <ul>
+                    <li>中煤能源 - 创18年新高，关注是否突破</li>
+                    <li>中国能建 - 5天3板，关注能否加速</li>
+                    <li>华工科技 - 成交额277亿，关注主力动向</li>
+                </ul>
+
+                <h3 style="margin-top: 25px;">⚠️ 风险提示</h3>
+                <div class="warning">
+                    <ol>
+                        <li><strong>地缘政治风险：</strong>中东局势升级可能继续扰动市场</li>
+                        <li><strong>通胀风险：</strong>油价上涨可能引发通胀预期，压制风险偏好</li>
+                        <li><strong>技术面风险：</strong>创业板、科创板调整趋势仍在，注意风险</li>
+                        <li><strong>成交量风险：</strong>成交缩量显示资金观望，注意流动性风险</li>
+                    </ol>
+                </div>
+
+                <h3 style="margin-top: 25px;">💡 今日机会与风险</h3>
+
+                <p><strong>今日机会：</strong></p>
+                <ul class="check-list">
+                    <li>能源主线在避险情绪下有望继续走强</li>
+                    <li>化工涨价链短期仍有空间</li>
+                    <li>低估值高分红品种适合防御配置</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>今日风险：</strong></p>
+                <ul class="cross-list">
+                    <li>高位科技股仍有调整压力</li>
+                    <li>市场情绪偏弱，追高风险较大</li>
+                    <li>外围市场波动可能传导</li>
+                </ul>
+            </div>
+
+            <h2>机构观点摘要</h2>
+
+            <div class="section">
+                <p><strong>📊 国金证券：</strong>A股投资逻辑将从避险转向寻找新周期，具备全球竞争力的企业将成为核心资产。</p>
+
+                <p style="margin-top: 10px;"><strong>📊 华西证券：</strong>2026年结构主线由科技切换至涨价链，关注能源链、有色金属和农产品。</p>
+
+                <p style="margin-top: 10px;"><strong>📊 东吴证券：</strong>市场热点切换速度加快，指数可能继续窄幅震荡，向上突破需要外围消息面的落地。</p>
+
+                <p style="margin-top: 10px;"><strong>📊 中原证券：</strong>市场底线支撑坚实，央行明确将灵活运用降准降息工具，上证指数维持小幅震荡整理的可能性较大。</p>
+
+                <p style="margin-top: 10px;"><strong>📊 财信证券：</strong>预计A股相对外围股市仍有较强韧性，不宜过度担忧，中期建议合理控制仓位。</p>
+            </div>
+
+            <h2>结语</h2>
+
+            <div class="section">
+                <p>当前市场处于震荡整理阶段，受地缘政治和国际油价波动影响，避险情绪升温。建议投资者：</p>
+                <ol class="check-list">
+                    <li><strong>控制仓位：</strong>总体仓位控制在3-5成</li>
+                    <li><strong>聚焦主线：</strong>重点关注能源安全和涨价链</li>
+                    <li><strong>防范风险：</strong>避免追高，做好止损</li>
+                    <li><strong>保持耐心：</strong>等待市场企稳信号</li>
+                </ol>
+
+                <div class="warning" style="margin-top: 20px;">
+                    <strong>⚠️ 市场有风险，投资需谨慎。本报告仅供参考，不构成投资建议。</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            *风险提示：本报告仅为市场分析参考，不构成任何投资建议。投资者据此操作，风险自担。*
+        </div>
     </div>
-
-    <div class="section">
-        <h2>二、昨日A股市场复盘</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>三、市场情绪指数</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>四、核心题材强度排名</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>五、资金结构分析</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>六、潜在龙头股识别</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>七、今日交易策略</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>八、今日重点关注方向</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="disclaimer">*风险提示：本报告仅为市场分析参考，不构成任何投资建议*</div>
 </body>
 </html>
