@@ -5,60 +5,371 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026-03-20 A股早盘策略报告</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
-               line-height: 1.8; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        h1 { color: #e74c3c; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 15px; }
-        h2 { color: #667eea; border-left: 4px solid #667eea; padding-left: 12px; margin-top: 35px; }
-        .meta { text-align: center; color: #999; margin-bottom: 30px; font-size: 14px; }
-        .section { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .update-time { text-align: center; color: #666; margin-top: 40px; font-size: 14px; border-top: 1px solid #eee; padding-top: 20px; }
-        .disclaimer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; font-style: italic; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f5f7fa;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+
+        .meta {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        h2 {
+            color: #667eea;
+            border-left: 4px solid #667eea;
+            padding-left: 12px;
+            margin-top: 35px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .warning-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .highlight {
+            background: #e8f5e9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .update-time {
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 30px;
+            font-style: italic;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .badge-red {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .badge-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📊 2026-03-20 A股早盘策略报告</h1>
-    <div class="meta">更新时间：2026-03-20 08:00:22</div>
+    <div class="container">
+        <h1>📊 2026-03-20 A股早盘策略报告</h1>
+        <div class="meta">更新时间：2026-03-20 08:05:00 | 策略分析师：策略君</div>
 
-    <div class="section">
-        <h2>一、全球市场概览</h2>
-        <p>（数据待采集）</p>
+        <div class="section">
+            <h2>一、全球市场概览</h2>
+
+            <h3>美股市场</h3>
+            <ul>
+                <li><strong>道琼斯工业指数</strong>: 待开盘更新</li>
+                <li><strong>纳斯达克综合指数</strong>: 待开盘更新</li>
+                <li><strong>标普500指数</strong>: 待开盘更新</li>
+            </ul>
+
+            <h3>大宗商品</h3>
+            <ul>
+                <li><strong>黄金</strong>: 待更新</li>
+                <li><strong>原油</strong>: 待更新</li>
+                <li><strong>美元指数</strong>: 待更新</li>
+            </ul>
+
+            <h3>亚太市场</h3>
+            <ul>
+                <li><strong>日经225</strong>: 待更新</li>
+                <li><strong>恒生指数</strong>: 待更新</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>二、昨日A股市场复盘</h2>
+
+            <h3>主要指数表现</h3>
+            <ul>
+                <li><strong>上证指数</strong>: 收盘点位待更新，涨跌幅待更新</li>
+                <li><strong>深证成指</strong>: 收盘点位待更新，涨跌幅待更新</li>
+                <li><strong>创业板指</strong>: 收盘点位待更新，涨跌幅待更新</li>
+            </ul>
+
+            <h3>市场整体情况</h3>
+            <ul>
+                <li><strong>上涨家数</strong>: 待统计</li>
+                <li><strong>下跌家数</strong>: 待统计</li>
+                <li><strong>平盘家数</strong>: 待统计</li>
+                <li><strong>涨停家数</strong>: 待统计</li>
+                <li><strong>跌停家数</strong>: 待统计</li>
+                <li><strong>成交量</strong>: 待统计</li>
+                <li><strong>成交额</strong>: 待统计</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>三、市场情绪指数</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>指标</th>
+                        <th>数值</th>
+                        <th>评级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>市场温度</td>
+                        <td>待计算</td>
+                        <td>⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>涨停板数</td>
+                        <td>待统计</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>炸板率</td>
+                        <td>待计算</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>北向资金净流入</td>
+                        <td>待统计</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>融资融券余额</td>
+                        <td>待统计</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>四、核心题材强度排名</h2>
+            <ol>
+                <li><strong>待更新</strong>: 涨幅待计算，龙头股待识别</li>
+                <li><strong>待更新</strong>: 涨幅待计算，龙头股待识别</li>
+                <li><strong>待更新</strong>: 涨幅待计算，龙头股待识别</li>
+                <li><strong>待更新</strong>: 涨幅待计算，龙头股待识别</li>
+                <li><strong>待更新</strong>: 涨幅待计算，龙头股待识别</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>五、资金结构分析</h2>
+
+            <h3>主力资金流向</h3>
+            <ul>
+                <li><strong>主力净流入</strong>: 待统计</li>
+                <li><strong>超大单净流入</strong>: 待统计</li>
+                <li><strong>大单净流入</strong>: 待统计</li>
+                <li><strong>中单净流入</strong>: 待统计</li>
+                <li><strong>小单净流入</strong>: 待统计</li>
+            </ul>
+
+            <h3>北向资金</h3>
+            <ul>
+                <li><strong>沪股通净流入</strong>: 待统计</li>
+                <li><strong>深股通净流入</strong>: 待统计</li>
+                <li><strong>合计净流入</strong>: 待统计</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>六、潜在龙头股识别</h2>
+
+            <h3>高度关注</h3>
+            <ul>
+                <li><strong>股票名称</strong> (股票代码): 待识别，逻辑待分析</li>
+            </ul>
+
+            <h3>重点跟踪</h3>
+            <ul>
+                <li><strong>股票名称</strong> (股票代码): 待识别，逻辑待分析</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>七、今日交易策略</h2>
+
+            <h3>总体策略</h3>
+            <p><strong>观望为主，谨慎参与</strong></p>
+            <p>当前市场数据采集遇到技术问题，建议投资者：</p>
+            <ul>
+                <li>等待开盘后观察指数走势</li>
+                <li>关注北向资金流向变化</li>
+                <li>观察昨日强势题材的持续性</li>
+                <li>严格控制仓位，防范风险</li>
+            </ul>
+
+            <h3>具体操作</h3>
+            <ul>
+                <li><strong>激进型</strong>: 待更新具体操作建议</li>
+                <li><strong>稳健型</strong>: 待更新具体操作建议</li>
+                <li><strong>保守型</strong>: 待更新具体操作建议</li>
+            </ul>
+
+            <h3>止损纪律</h3>
+            <ul>
+                <li><strong>短线止损</strong>: 待设定</li>
+                <li><strong>中线止损</strong>: 待设定</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>八、今日重点关注方向</h2>
+
+            <h3>重点关注</h3>
+            <ul>
+                <li><strong>待更新</strong>: 关注原因待补充</li>
+                <li><strong>待更新</strong>: 关注原因待补充</li>
+                <li><strong>待更新</strong>: 关注原因待补充</li>
+            </ul>
+
+            <h3>重要时间节点</h3>
+            <ul>
+                <li><strong>09:15-09:25</strong>: 集合竞价</li>
+                <li><strong>09:30</strong>: 开盘</li>
+                <li><strong>10:00-10:30</strong>: 早盘观察期</li>
+                <li><strong>11:30</strong>: 午间收盘</li>
+                <li><strong>13:00</strong>: 下午开盘</li>
+                <li><strong>14:00-14:30</strong>: 尾盘观察期</li>
+                <li><strong>15:00</strong>: 收盘</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ 特别提示</div>
+            <p><strong>数据采集说明</strong>: 本报告数据采集遇到技术问题，部分数据字段标注为"待更新"。建议投资者：</p>
+            <ol>
+                <li>关注东方财富网、同花顺等权威财经网站获取实时数据</li>
+                <li>使用东方财富证券、同花顺等交易软件查看实时行情</li>
+                <li>参考券商研究所发布的正式研究报告</li>
+                <li>本报告仅供参考，不构成任何投资建议</li>
+            </ol>
+        </div>
+
+        <div class="disclaimer">
+            *风险提示：本报告仅为市场分析参考，不构成任何投资建议。股市有风险，投资需谨慎。*
+        </div>
     </div>
-
-    <div class="section">
-        <h2>二、昨日A股市场复盘</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>三、市场情绪指数</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>四、核心题材强度排名</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>五、资金结构分析</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>六、潜在龙头股识别</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>七、今日交易策略</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>八、今日重点关注方向</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="disclaimer">*风险提示：本报告仅为市场分析参考，不构成任何投资建议*</div>
 </body>
 </html>
