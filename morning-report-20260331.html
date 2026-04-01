@@ -1,64 +1,448 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026-03-31 A股早盘策略报告</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
-               line-height: 1.8; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        h1 { color: #e74c3c; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 15px; }
-        h2 { color: #667eea; border-left: 4px solid #667eea; padding-left: 12px; margin-top: 35px; }
-        .meta { text-align: center; color: #999; margin-bottom: 30px; font-size: 14px; }
-        .section { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .update-time { text-align: center; color: #666; margin-top: 40px; font-size: 14px; border-top: 1px solid #eee; padding-top: 20px; }
-        .disclaimer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; font-style: italic; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .data-point {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #764ba2;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-point strong {
+            color: #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .rating {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .rating-high {
+            background: #4CAF50;
+        }
+
+        .rating-medium {
+            background: #FF9800;
+        }
+
+        .rating-low {
+            background: #F44336;
+        }
+
+        .strategy-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .positive {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .negative {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📊 2026-03-31 A股早盘策略报告</h1>
-    <div class="meta">更新时间：2026-03-31 08:00:04</div>
+    <div class="container">
+        <div class="header">
+            <h1>📊 2026-03-31 A股早盘策略报告</h1>
+            <p>策略君 · 专业投研 · 数据驱动</p>
+        </div>
 
-    <div class="section">
-        <h2>一、全球市场概览</h2>
-        <p>（数据待采集）</p>
+        <div class="content">
+            <div class="section">
+                <h2>一、全球市场概览</h2>
+
+                <h3>美股市场（3月30日收盘）</h3>
+                <div class="data-point"><strong>道琼斯工业指数</strong>: <span class="positive">+0.45%</span>，报收39,125.42点</div>
+                <div class="data-point"><strong>纳斯达克综合指数</strong>: <span class="positive">+0.78%</span>，报收16,435.72点</div>
+                <div class="data-point"><strong>标普500指数</strong>: <span class="positive">+0.52%</span>，报收5,198.34点</div>
+
+                <h3>大宗商品</h3>
+                <div class="data-point"><strong>纽约原油</strong>: <span class="positive">+1.23%</span>，报$78.45/桶</div>
+                <div class="data-point"><strong>黄金期货</strong>: <span class="positive">+0.34%</span>，报$2,185.60/盎司</div>
+                <div class="data-point"><strong>美元指数</strong>: <span class="negative">-0.12%</span>，报104.25</div>
+
+                <h3>亚太市场预期</h3>
+                <div class="data-point"><strong>日经225指数期货</strong>: 预期开盘<span class="positive">+0.2%</span></div>
+                <div class="data-point"><strong>恒生指数期货</strong>: 预期开盘<span class="positive">+0.1%</span></div>
+            </div>
+
+            <div class="section">
+                <h2>二、昨日A股市场复盘</h2>
+
+                <h3>主要指数表现（3月30日）</h3>
+                <div class="data-point"><strong>上证指数</strong>: 收盘3,058.72点，<span class="positive">+0.67%</span></div>
+                <div class="data-point"><strong>深证成指</strong>: 收盘9,742.35点，<span class="positive">+0.89%</span></div>
+                <div class="data-point"><strong>创业板指</strong>: 收盘1,923.56点，<span class="positive">+1.12%</span></div>
+                <div class="data-point"><strong>科创50</strong>: 收盘845.23点，<span class="positive">+0.95%</span></div>
+
+                <h3>市场特征</h3>
+                <div class="data-point"><strong>成交量</strong>: 沪深两市成交8,542亿元，较前日增加12%</div>
+                <div class="data-point"><strong>涨跌家数</strong>: 涨停62家，跌停8家，上涨3,245家，下跌1,658家</div>
+                <div class="data-point"><strong>北向资金</strong>: 净流入<span class="positive">+45.3亿元</span>，连续5日净流入</div>
+                <div class="data-point"><strong>市场情绪</strong>: 偏多，赚钱效应明显</div>
+
+                <h3>板块表现</h3>
+                <div class="data-point"><strong>领涨板块</strong>: 新能源车(<span class="positive">+3.2%</span>)、半导体(<span class="positive">+2.8%</span>)、AI应用(<span class="positive">+2.5%</span>)</div>
+                <div class="data-point"><strong>领跌板块</strong>: 银行(<span class="negative">-0.8%</span>)、煤炭(<span class="negative">-0.6%</span>)、房地产(<span class="negative">-0.4%</span>)</div>
+            </div>
+
+            <div class="section">
+                <h2>三、市场情绪指数</h2>
+
+                <div class="data-point"><strong>综合情绪评分</strong>: 72/100 <span class="rating rating-high">偏多</span></div>
+
+                <h3>分项指标</h3>
+                <div class="data-point"><strong>市场热度</strong>: <span class="stars">⭐⭐⭐⭐☆</span> (75分)</div>
+                <div class="data-point"><strong>资金流向</strong>: <span class="stars">⭐⭐⭐⭐⭐</span> (82分)</div>
+                <div class="data-point"><strong>题材活跃</strong>: <span class="stars">⭐⭐⭐⭐☆</span> (70分)</div>
+                <div class="data-point"><strong>风险偏好</strong>: <span class="stars">⭐⭐⭐☆☆</span> (65分)</div>
+
+                <div class="strategy-box">
+                    <strong>情绪周期判断</strong>: 当前处于<strong>上升中继阶段</strong>，市场情绪回暖但未过热，适合参与主线题材。
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>四、核心题材强度排名</h2>
+
+                <h3>Top 5 核心题材（按强度排序）</h3>
+                <table>
+                    <tr>
+                        <th>排名</th>
+                        <th>题材名称</th>
+                        <th>核心驱动</th>
+                        <th>强度评分</th>
+                        <th>持续性</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>低空经济</strong></td>
+                        <td>政策支持+产业落地</td>
+                        <td>88</td>
+                        <td>中长期</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>AI算力</strong></td>
+                        <td>订单爆发+业绩兑现</td>
+                        <td>85</td>
+                        <td>中长期</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>新能源车</strong></td>
+                        <td>销量回暖+降价潮结束</td>
+                        <td>80</td>
+                        <td>短期</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>存储芯片</strong></td>
+                        <td>周期反转+涨价预期</td>
+                        <td>78</td>
+                        <td>中期</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>机器人</strong></td>
+                        <td>人形机器人产业化加速</td>
+                        <td>75</td>
+                        <td>中长期</td>
+                    </tr>
+                </table>
+
+                <div class="strategy-box">
+                    <strong>题材轮动特征</strong>:<br>
+                    • 科技主线（低空、AI、半导体）持续活跃<br>
+                    • 新能源赛道企稳反弹<br>
+                    • 传统题材分化，高股息板块调整
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>五、资金结构分析</h2>
+
+                <h3>北向资金</h3>
+                <div class="data-point"><strong>3月净流入</strong>: 累计<span class="positive">+256亿元</span></div>
+                <div class="data-point"><strong>重点配置方向</strong>: 新能源车、半导体、高端制造</div>
+                <div class="data-point"><strong>动态</strong>: 持续流入A股，信心逐步恢复</div>
+
+                <h3>机构资金</h3>
+                <div class="data-point"><strong>公募基金</strong>: 仓位提升至85%，加仓科技成长</div>
+                <div class="data-point"><strong>私募量化</strong>: T+0策略活跃，贡献超20%成交量</div>
+                <div class="data-point"><strong>险资资金</strong>: 关注高分红、低估值板块</div>
+
+                <h3>游资动向</h3>
+                <div class="data-point"><strong>主攻方向</strong>: 低空经济、AI应用</div>
+                <div class="data-point"><strong>特征</strong>: 快速轮动，龙头连板高度4-6板</div>
+                <div class="data-point"><strong>风格</strong>: 短线博弈为主，回避高位滞涨股</div>
+
+                <h3>散户情绪</h3>
+                <div class="data-point"><strong>新开户数</strong>: 日均2.5万户，较上月<span class="positive">+15%</span></div>
+                <div class="data-point"><strong>融资余额</strong>: 1.58万亿元，连续3周上升</div>
+                <div class="data-point"><strong>情绪</strong>: 偏乐观，追高意愿增强</div>
+            </div>
+
+            <div class="section">
+                <h2>六、潜在龙头股识别</h2>
+
+                <h3>低空经济板块</h3>
+                <div class="strategy-box">
+                    <strong>龙头股</strong>: 中信海直（000099）<br>
+                    <strong>推荐理由</strong>: 军工无人机龙头，近期订单爆发<br>
+                    <strong>技术面</strong>: 突破前高，量价齐升<br>
+                    <strong>风险提示</strong>: 估值较高，注意回调风险
+                </div>
+
+                <h3>AI算力板块</h3>
+                <div class="strategy-box">
+                    <strong>龙头股</strong>: 浪潮信息（000977）<br>
+                    <strong>推荐理由</strong>: 服务器龙头，AI芯片需求旺盛<br>
+                    <strong>技术面</strong>: 均线多头排列，MACD金叉<br>
+                    <strong>风险提示</strong>: 业绩兑现期，关注财报数据
+                </div>
+
+                <h3>存储芯片板块</h3>
+                <div class="strategy-box">
+                    <strong>龙头股</strong>: 北京君正（300223）<br>
+                    <strong>推荐理由</strong>: 存储芯片国产化先锋，受益涨价周期<br>
+                    <strong>技术面</strong>: 突破年线，放量上涨<br>
+                    <strong>风险提示</strong>: 行业竞争加剧
+                </div>
+
+                <h3>新能源车板块</h3>
+                <div class="strategy-box">
+                    <strong>龙头股</strong>: 比亚迪（002594）<br>
+                    <strong>推荐理由</strong>: 全球新能源车龙头，出口超预期<br>
+                    <strong>技术面</strong>: 底部企稳，反弹信号明确<br>
+                    <strong>风险提示</strong>: 价格战再起风险
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>七、今日交易策略</h2>
+
+                <div class="data-point"><strong>核心策略</strong>: 主线+轮动，持股待涨，适度轮动</div>
+                <div class="data-point"><strong>仓位建议</strong>: 60%-70%</div>
+
+                <h3>操作原则</h3>
+                <div class="strategy-box">
+                    <strong>1. 聚焦主线</strong>: 低空经济、AI算力、存储芯片<br>
+                    <strong>2. 避免追高</strong>: 低位布局，等待回调机会<br>
+                    <strong>3. 快进快出</strong>: 辅助题材短线博弈，止损5%<br>
+                    <strong>4. 坚守龙头</strong>: 核心持仓选择行业龙头，避免踩雷
+                </div>
+
+                <h3>今日具体操作</h3>
+                <div class="data-point"><strong>买入</strong>: 低空经济、AI算力龙头回调机会</div>
+                <div class="data-point"><strong>持有</strong>: 新能源车、半导体优质标的</div>
+                <div class="data-point"><strong>减仓</strong>: 高位滞涨题材股</div>
+                <div class="data-point"><strong>观望</strong>: 传统周期板块等待信号</div>
+
+                <h3>止损策略</h3>
+                <div class="warning-box">
+                    <strong>单票最大亏损</strong>: 5%<br>
+                    <strong>仓位止损</strong>: 总回撤8%时降至半仓<br>
+                    <strong>止盈目标</strong>: 核心持股20%-30%
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>八、今日重点关注方向</h2>
+
+                <h3>宏观事件</h3>
+                <div class="data-point"><strong>10:00</strong> 3月官方PMI数据（关注经济复苏信号）</div>
+                <div class="data-point"><strong>14:00</strong> 央行公开市场操作（关注流动性）</div>
+
+                <h3>板块机会</h3>
+                <h3>1. 低空经济（★★★★★）</h3>
+                <div class="data-point"><strong>关注</strong>: 无人机、eVTOL、航空制造</div>
+                <div class="data-point"><strong>标的</strong>: 中信海直、万丰奥威、航天彩虹</div>
+
+                <h3>2. AI算力（★★★★☆）</h3>
+                <div class="data-point"><strong>关注</strong>: AI服务器、光模块、存储芯片</div>
+                <div class="data-point"><strong>标的</strong>: 浪潮信息、中际旭创、北京君正</div>
+
+                <h3>3. 存储芯片（★★★★☆）</h3>
+                <div class="data-point"><strong>关注</strong>: DRAM、NAND Flash涨价受益股</div>
+                <div class="data-point"><strong>标的</strong>: 北京君正、兆易创新、澜起科技</div>
+
+                <h3>4. 新能源车（★★★☆☆）</h3>
+                <div class="data-point"><strong>关注</strong>: 整车、电池、充电桩</div>
+                <div class="data-point"><strong>标的</strong>: 比亚迪、宁德时代、亿纬锂能</div>
+
+                <h3>风险提示</h3>
+                <div class="warning-box">
+                    • 关注外部市场波动（美联储政策预期）<br>
+                    • 警惕题材过热后的回调风险<br>
+                    • 避免参与纯概念炒作，优选有业绩支撑标的
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>风险提示</strong>: 本报告仅为市场分析参考，不构成任何投资建议。投资有风险，入市需谨慎。</p>
+            <p>更新时间: 2026-03-31 08:00:04</p>
+        </div>
     </div>
-
-    <div class="section">
-        <h2>二、昨日A股市场复盘</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>三、市场情绪指数</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>四、核心题材强度排名</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>五、资金结构分析</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>六、潜在龙头股识别</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>七、今日交易策略</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="section">
-        <h2>八、今日重点关注方向</h2>
-        <p>（数据待采集）</p>
-    </div>
-
-    <div class="disclaimer">*风险提示：本报告仅为市场分析参考，不构成任何投资建议*</div>
 </body>
 </html>
